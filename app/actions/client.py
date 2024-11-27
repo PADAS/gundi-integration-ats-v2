@@ -140,15 +140,17 @@ def closest_transmission(transmissions, test_date):
     return [t for t in transmissions if t.DateSent == sorted_list[-1]][0]
 
 
-async def get_data_endpoint_response(config, auth):
+async def get_data_endpoint_response(integration_id, config, auth):
     endpoint = config.data_endpoint
     async with httpx.AsyncClient(timeout=120) as session:
+        logger.info(f"-- Getting data points for integration ID: {integration_id} Endpoint: {endpoint} --")
         response = await session.get(endpoint, auth=(auth.username, auth.password.get_secret_value()))
         response.raise_for_status()
         try:
+            logger.info(f"-- Parsing response (xmltodict) --")
             parsed_xml = xmltodict.parse(response.text)
         except (xmltodict.ParsingInterrupted, ExpatError) as e:
-            msg = "Error while parsing XML from 'data' endpoint"
+            msg = f"Error while parsing XML from 'data' endpoint. Integration ID: {integration_id} Username: {auth.username}"
             logger.exception(
                 msg,
                 extra={
@@ -163,7 +165,7 @@ async def get_data_endpoint_response(config, auth):
                 data_xml_tag = parsed_xml["DataSet"].get("diffgr:diffgram", {})
                 data = data_xml_tag.get("NewDataSet", {})
             except KeyError as e:
-                msg = "Error while parsing 'data' response from XML"
+                msg = f"Error while parsing 'data' response from XML. Integration ID: {integration_id} Username: {auth.username}"
                 logger.exception(
                     msg,
                     extra={
@@ -180,7 +182,7 @@ async def get_data_endpoint_response(config, auth):
                             {"vehicles": data.get("Table", [])}
                         )
                     except pydantic.ValidationError as e:
-                        msg = "Error while parsing 'PullObservationsDataResponse' response from XML (data)"
+                        msg = f"Error while parsing 'PullObservationsDataResponse' response from XML (data). Integration ID: {integration_id} Username: {auth.username}"
                         logger.exception(
                             msg,
                             extra={
@@ -191,22 +193,33 @@ async def get_data_endpoint_response(config, auth):
                         )
                         raise PullObservationsBadXMLException(message=msg, error=e)
                     else:
-                        response = parsed_response.vehicles
+                        response_per_device = {}
+                        # save data points per serial num
+                        serial_nums = set([v.ats_serial_num for v in parsed_response.vehicles])
+                        for serial_num in serial_nums:
+                            response_per_device[serial_num] = [
+                                point for point in parsed_response.vehicles if serial_num == point.ats_serial_num
+                            ]
+                            logger.info(f"-- Extracted {len(response_per_device[serial_num])} data points for device {serial_num} --")
+                        response = response_per_device
                 else:
-                    response = []
+                    logger.info(f"-- No data points extracted for endpoint {endpoint} --")
+                    response = {}
 
     return response
 
 
-async def get_transmissions_endpoint_response(config, auth):
+async def get_transmissions_endpoint_response(integration_id, config, auth):
     endpoint = config.transmissions_endpoint
     async with httpx.AsyncClient(timeout=120) as session:
+        logger.info(f"-- Getting transmissions for integration ID: {integration_id} Endpoint: {endpoint} --")
         response = await session.get(endpoint, auth=(auth.username, auth.password.get_secret_value()))
         response.raise_for_status()
         try:
+            logger.info(f"-- Parsing response (xmltodict) --")
             parsed_xml = xmltodict.parse(response.text)
         except (xmltodict.ParsingInterrupted, ExpatError) as e:
-            msg = "Error while parsing XML from 'transmissions' endpoint"
+            msg = f"Error while parsing XML from 'transmissions' endpoint. Integration ID: {integration_id} Username: {auth.username}"
             logger.exception(
                 msg,
                 extra={
@@ -221,7 +234,7 @@ async def get_transmissions_endpoint_response(config, auth):
                 transmissions_xml_tag = parsed_xml["DataSet"].get("diffgr:diffgram", {})
                 transmissions = transmissions_xml_tag.get("NewDataSet", {})
             except KeyError as e:
-                msg = "Error while parsing 'transmissions' response from XML"
+                msg = f"Error while parsing 'transmissions' response from XML. Integration ID: {integration_id} Username: {auth.username}"
                 logger.exception(
                     msg,
                     extra={
@@ -238,7 +251,7 @@ async def get_transmissions_endpoint_response(config, auth):
                             {"transmissions": transmissions.get("Table", [])}
                         )
                     except pydantic.ValidationError as e:
-                        msg = "Error while parsing 'PullObservationsTransmissionsResponse' response from XML (data)"
+                        msg = f"Error while parsing 'PullObservationsTransmissionsResponse' response from XML (data). Integration ID: {integration_id} Username: {auth.username}"
                         logger.exception(
                             msg,
                             extra={
@@ -251,6 +264,7 @@ async def get_transmissions_endpoint_response(config, auth):
                     else:
                         response = parsed_response.transmissions
                 else:
-                    response = []
+                    logger.info(f"-- No transmissions extracted for endpoint {endpoint} --")
+                    response = {}
 
     return response
