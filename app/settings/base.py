@@ -46,7 +46,8 @@ TRACE_ENVIRONMENT = env.str("TRACE_ENVIRONMENT", "dev")
 
 # GCP related settings
 GCP_PROJECT_ID = env.str("GCP_PROJECT_ID", "cdip-78ca")
-
+GCP_BUCKET_NAME = env.str("GCP_BUCKET_NAME", "cdip-files-prod")
+GCP_BUCKET_ROOT_PREFIX = env.str("GCP_BUCKET_ROOT_PREFIX", "integrations")
 
 KEYCLOAK_ALGORITHMS = env.list("KEYCLOAK_ALGORITHMS", ["RS256", "HS256"])
 KEYCLOAK_AUDIENCE = env.str("KEYCLOAK_AUDIENCE", None)

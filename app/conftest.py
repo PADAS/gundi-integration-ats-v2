@@ -78,6 +78,106 @@ def mock_redis(mocker, mock_integration_state):
 
 
 @pytest.fixture
+def gcp_bucket_list_response():
+    return {
+        "kind": "storage#objects",
+        "items": [
+            {"kind": "storage#object",
+             "id": "cdip-files-dev/integrations/1eb8ba40-6312-4093-9b47-7786320b11fb/202412011002_points_36a79831-8cbb-43d3-8686-4bbef9b2ea97.xml/1733165370760476",
+             "selfLink": "https://www.googleapis.com/storage/v1/b/cdip-files-dev/o/integrations%2F1eb8ba40-6312-4093-9b47-7786320b11fb%2F202412011002_points_36a79831-8cbb-43d3-8686-4bbef9b2ea97.xml",
+             "mediaLink": "https://www.googleapis.com/download/storage/v1/b/cdip-files-dev/o/integrations%2F1eb8ba40-6312-4093-9b47-7786320b11fb%2F202412011002_points_36a79831-8cbb-43d3-8686-4bbef9b2ea97.xml?generation=1733165370760476&alt=media",
+             "name": "integrations/1eb8ba40-6312-4093-9b47-7786320b11fb/202412011002_points_36a79831-8cbb-43d3-8686-4bbef9b2ea97.xml",
+             "bucket": "cdip-files-dev", "generation": "1733165370760476",
+             "metageneration": "1", "contentType": "application/xml",
+             "storageClass": "STANDARD", "size": "163809",
+             "md5Hash": "n69tQoslwlAqlYrXyKeaag==", "crc32c": "NWdbSQ==",
+             "etag": "CJy6i5LgiYoDEAE=", "timeCreated": "2024-12-02T18:49:30.763Z",
+             "updated": "2024-12-02T18:49:30.763Z",
+             "timeStorageClassUpdated": "2024-12-02T18:49:30.763Z",
+             "timeFinalized": "2024-12-02T18:49:30.763Z"},
+            {"kind": "storage#object",
+             "id": "cdip-files-dev/integrations/1eb8ba40-6312-4093-9b47-7786320b11fb/202412011002_points_49fbc550-3e05-49a5-b8b6-92e2719dbd54.xml/1733164701624806",
+             "selfLink": "https://www.googleapis.com/storage/v1/b/cdip-files-dev/o/integrations%2F1eb8ba40-6312-4093-9b47-7786320b11fb%2F202412011002_points_49fbc550-3e05-49a5-b8b6-92e2719dbd54.xml",
+             "mediaLink": "https://www.googleapis.com/download/storage/v1/b/cdip-files-dev/o/integrations%2F1eb8ba40-6312-4093-9b47-7786320b11fb%2F202412011002_points_49fbc550-3e05-49a5-b8b6-92e2719dbd54.xml?generation=1733164701624806&alt=media",
+             "name": "integrations/1eb8ba40-6312-4093-9b47-7786320b11fb/202412011002_points_49fbc550-3e05-49a5-b8b6-92e2719dbd54.xml",
+             "bucket": "cdip-files-dev",
+             "generation": "1733164701624806",
+             "metageneration": "1",
+             "contentType": "application/xml",
+             "storageClass": "STANDARD",
+             "size": "163809",
+             "md5Hash": "n69tQoslwlAqlYrXyKeaag==",
+             "crc32c": "NWdbSQ==",
+             "etag": "CObTgtPdiYoDEAE=",
+             "timeCreated": "2024-12-02T18:38:21.628Z",
+             "updated": "2024-12-02T18:38:21.628Z",
+             "timeStorageClassUpdated": "2024-12-02T18:38:21.628Z",
+             "timeFinalized": "2024-12-02T18:38:21.628Z"},
+            {"kind": "storage#object",
+             "id": "cdip-files-dev/integrations/1eb8ba40-6312-4093-9b47-7786320b11fb/202412011002_points_c7061ac5-5814-4759-82fb-57f08418f50c.xml/1733164810579987",
+             "selfLink": "https://www.googleapis.com/storage/v1/b/cdip-files-dev/o/integrations%2F1eb8ba40-6312-4093-9b47-7786320b11fb%2F202412011002_points_c7061ac5-5814-4759-82fb-57f08418f50c.xml",
+             "mediaLink": "https://www.googleapis.com/download/storage/v1/b/cdip-files-dev/o/integrations%2F1eb8ba40-6312-4093-9b47-7786320b11fb%2F202412011002_points_c7061ac5-5814-4759-82fb-57f08418f50c.xml?generation=1733164810579987&alt=media",
+             "name": "integrations/1eb8ba40-6312-4093-9b47-7786320b11fb/202412011002_points_c7061ac5-5814-4759-82fb-57f08418f50c.xml",
+             "bucket": "cdip-files-dev",
+             "generation": "1733164810579987",
+             "metageneration": "1",
+             "contentType": "application/xml",
+             "storageClass": "STANDARD",
+             "size": "163809",
+             "md5Hash": "n69tQoslwlAqlYrXyKeaag==",
+             "crc32c": "NWdbSQ==",
+             "etag": "CJPg/IbeiYoDEAE=",
+             "timeCreated": "2024-12-02T18:40:10.581Z",
+             "updated": "2024-12-02T18:40:10.581Z",
+             "timeStorageClassUpdated": "2024-12-02T18:40:10.581Z",
+             "timeFinalized": "2024-12-02T18:40:10.581Z"}
+        ]
+    }
+
+
+@pytest.fixture
+def get_gcp_file_metadata_response():
+    return {
+        "kind": "storage#object",
+        "id": "cdip-files-dev/integrations/1eb8ba40-6312-4093-9b47-7786320b11fb/202412011002_points_49fbc550-3e05-49a5-b8b6-92e2719dbd54.xml/1733164701624806",
+        "selfLink": "https://www.googleapis.com/storage/v1/b/cdip-files-dev/o/integrations%2F1eb8ba40-6312-4093-9b47-7786320b11fb%2F202412011002_points_49fbc550-3e05-49a5-b8b6-92e2719dbd54.xml",
+        "mediaLink": "https://www.googleapis.com/download/storage/v1/b/cdip-files-dev/o/integrations%2F1eb8ba40-6312-4093-9b47-7786320b11fb%2F202412011002_points_49fbc550-3e05-49a5-b8b6-92e2719dbd54.xml?generation=1733164701624806&alt=media",
+        "name": "integrations/1eb8ba40-6312-4093-9b47-7786320b11fb/202412011002_points_49fbc550-3e05-49a5-b8b6-92e2719dbd54.xml",
+        "bucket": "cdip-files-dev", "generation": "1733164701624806", "metageneration": "2",
+        "contentType": "application/xml", "storageClass": "STANDARD", "size": "163809",
+        "md5Hash": "n69tQoslwlAqlYrXyKeaag==", "crc32c": "NWdbSQ==", "etag": "CObTgtPdiYoDEAI=",
+        "timeCreated": "2024-12-02T18:38:21.628Z", "updated": "2024-12-02T20:30:12.188Z",
+        "timeStorageClassUpdated": "2024-12-02T18:38:21.628Z", "timeFinalized": "2024-12-02T18:38:21.628Z",
+        "metadata": {"metatest": "mariano"}
+    }
+
+
+@pytest.fixture
+def mock_gcp_cloud_storage_client(
+        mocker,
+        gcp_bucket_list_response,
+        get_gcp_file_metadata_response
+):
+    mock_client = mocker.MagicMock()
+    mock_client.upload_from_filename.return_value = async_return(None)
+    mock_client.download_to_filename.return_value = async_return(None)
+    mock_client.delete.return_value = async_return(None)
+    mock_client.list_objects.return_value = async_return(gcp_bucket_list_response)
+    mock_client.download_metadata.return_value = async_return(get_gcp_file_metadata_response)
+    mock_client.__aenter__.return_value = mock_client
+    mock_client.__aexit__.return_value = None
+    mock_client.close.return_value = async_return(None)
+    return mock_client
+
+
+@pytest.fixture
+def mock_gcp_cloud_storage(mocker, mock_gcp_cloud_storage_client):
+    mock_cloud_storage_client_class = mocker.MagicMock()
+    mock_cloud_storage_client_class.return_value = mock_gcp_cloud_storage_client
+    return mock_cloud_storage_client_class
+
+
+@pytest.fixture
 def integration_v2():
     return Integration.parse_obj(
         {
@@ -654,7 +754,7 @@ def mock_gundi_client_v2(mocker, integration_v2, mock_get_gundi_api_key):
 
 @pytest.fixture
 def mock_gundi_client_v2_for_webhooks(
-    mocker, integration_v2_with_webhook, mock_get_gundi_api_key
+        mocker, integration_v2_with_webhook, mock_get_gundi_api_key
 ):
     mock_client = mocker.MagicMock()
     mock_client.get_integration_api_key.return_value = (
@@ -670,7 +770,7 @@ def mock_gundi_client_v2_for_webhooks(
 
 @pytest.fixture
 def mock_gundi_client_v2_for_webhooks_generic(
-    mocker, integration_v2_with_webhook_generic, mock_get_gundi_api_key
+        mocker, integration_v2_with_webhook_generic, mock_get_gundi_api_key
 ):
     mock_client = mocker.MagicMock()
     mock_client.get_integration_api_key.return_value = (
@@ -693,10 +793,10 @@ def mock_gundi_client_v2_class(mocker, mock_gundi_client_v2):
 
 @pytest.fixture
 def mock_gundi_sensors_client_class(
-    mocker,
-    events_created_response,
-    event_attachment_created_response,
-    observations_created_response,
+        mocker,
+        events_created_response,
+        event_attachment_created_response,
+        observations_created_response,
 ):
     mock_gundi_sensors_client_class = mocker.MagicMock()
     mock_gundi_sensors_client = mocker.MagicMock()
@@ -787,7 +887,7 @@ def mock_state_manager(mocker):
 
 @pytest.fixture
 def mock_pubsub_client(
-    mocker, integration_event_pubsub_message, gcp_pubsub_publish_response
+        mocker, integration_event_pubsub_message, gcp_pubsub_publish_response
 ):
     mock_client = mocker.MagicMock()
     mock_publisher = mocker.MagicMock()
@@ -1545,15 +1645,15 @@ def webhook_custom_activity_log_event():
 
 @pytest.fixture
 def system_event(
-    request,
-    action_started_event,
-    action_complete_event,
-    action_failed_event,
-    custom_activity_log_event,
-    webhook_started_event,
-    webhook_complete_event,
-    webhook_failed_event,
-    webhook_custom_activity_log_event,
+        request,
+        action_started_event,
+        action_complete_event,
+        action_failed_event,
+        custom_activity_log_event,
+        webhook_started_event,
+        webhook_complete_event,
+        webhook_failed_event,
+        webhook_custom_activity_log_event,
 ):
     if request.param == "action_started_event":
         return action_started_event
