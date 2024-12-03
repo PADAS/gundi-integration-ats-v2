@@ -70,10 +70,15 @@ def mock_redis(mocker, mock_integration_state):
     redis_client.decr.return_value = async_return(None)
     redis_client.expire.return_value = redis_client
     redis_client.execute.return_value = async_return((1, True))
+    redis_client.sadd.return_value = async_return(2)
+    redis_client.smembers.return_value = async_return(["file_3.xml", "file_4.xml"])
+    redis_client.smove.return_value = async_return(2)
+    redis_client.srem.return_value = async_return(2)
     redis_client.__aenter__.return_value = redis_client
     redis_client.__aexit__.return_value = None
     redis_client.pipeline.return_value = redis_client
     redis.Redis.return_value = redis_client
+    redis.StrictRedis.return_value = redis_client
     return redis
 
 
